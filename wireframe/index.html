@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniQdata App Wireframe</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0D9488',
+            'primary-light': '#14B8A6',
+            'primary-dark': '#0F766E',
+            accent: '#F59E0B',
+            'accent-light': '#FBBF24',
+          },
+          fontFamily: {
+            sans: ['Noto Sans KR', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* 모바일 프레임 스타일 */
+    :root {
+      --phone-width: 375px;
+      --phone-height: 812px;
+    }
+
+    /* 모바일 프레임: 콘텐츠 길이에 맞춰 세로 확장 */
+    .phone-frame {
+      width: min(var(--phone-width), 92vw);
+      min-height: var(--phone-height);
+      height: auto;
+      border-radius: 40px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .phone-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 30px;
+      background: #000;
+      border-radius: 0 0 20px 20px;
+      z-index: 100;
+    }
+    
+    .screen-content {
+      height: auto;
+      overflow: visible;
+      padding-top: 44px;
+      padding-bottom: 96px; /* 하단 네비 여백 확보 */
+      box-sizing: border-box;
+    }
+    
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: white;
+      border-top: 1px solid #e5e7eb;
+      padding-bottom: 20px;
+    }
+    
+    /* 숨기기 */
+    .screen {
+      display: none;
+      min-height: var(--phone-height);
+    }
+    .screen.active { display: block; }
+    
+    /* 애니메이션 */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    /* 프로그레스 링 */
+    .progress-ring {
+      transform: rotate(-90deg);
+    }
+    
+    .progress-ring-circle {
+      transition: stroke-dashoffset 0.5s ease;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+  <header class="px-8 pt-8">
+    <div class="flex items-center justify-between bg-slate-900 rounded-2xl px-6 py-4 shadow-lg">
+      <div>
+        <div class="text-lg font-semibold">UniQdata App Wireframe</div>
+        <div class="text-sm text-slate-400">Flow 중심 기획 + 화면/기능/API 명세 (Draft)</div>
+      </div>
+      <div class="text-xs text-slate-400">
+        기준: Phase 0 (MVP) · 데이터 스키마는 복잡도 고려 필수
+      </div>
+    </div>
+  </header>
+
+  <div class="flex gap-6 px-8 pb-8 pt-6">
+    <!-- 좌측: Flow + Screen 선택 -->
+    <div class="w-80 bg-slate-900 rounded-2xl p-6 shadow-lg">
+      <div class="flex gap-2 mb-4">
+        <button id="tab-flow" onclick="setNavView('flow')" class="flex-1 rounded-lg px-3 py-2 text-sm bg-primary/20 text-primary font-medium">Flow View</button>
+        <button id="tab-screen" onclick="setNavView('screen')" class="flex-1 rounded-lg px-3 py-2 text-sm bg-slate-800 text-slate-300">Screen View</button>
+      </div>
+
+      <div id="flow-view" class="space-y-4">
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-sm text-slate-400 mb-2">Phase 0 (MVP 핵심)</div>
+          <ol class="text-sm space-y-2">
+            <li>1) 가입/인증 (Passkey)</li>
+            <li>2) 연구 참여 (리스트 → 동의)</li>
+            <li>3) 데이터 입력/동기화 (수기 + 사진 + 기기)</li>
+            <li>4) 진행 상태/누락 알림</li>
+            <li>5) 결과 요약 (라이트)</li>
+            <li>6) 보상/정산</li>
+          </ol>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-sm text-slate-400 mb-2">Phase 1</div>
+          <ul class="text-sm space-y-2">
+            <li>• 동의/철회 관리 고도화</li>
+            <li>• 연구별 데이터 스코프 설정</li>
+            <li>• 리포트 내보내기</li>
+          </ul>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4">
+          <div class="text-sm text-slate-400 mb-2">Phase 2</div>
+          <ul class="text-sm space-y-2">
+            <li>• AI 추천/인과 인사이트</li>
+            <li>• 장기 추적/패턴 비교</li>
+          </ul>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4 text-xs text-slate-400">
+          <div class="font-semibold text-slate-200 mb-2">데이터 스키마 노트</div>
+          <div>health_records / data_points 중심</div>
+          <div>필수 필드: concept_id · domain · event_datetime · source_app</div>
+          <div>민감도(L1~L4), value_numeric/value_encrypted 혼용 주의</div>
+          <div class="mt-2">참조: DATA_INGESTION_STRATEGY.md</div>
+        </div>
+      </div>
+
+      <div id="screen-view" class="space-y-2 hidden">
+        <div class="text-xs text-slate-400 mb-2">화면 선택 (MVP 우선순위)</div>
+        <button onclick="showScreen('onboarding')" class="screen-btn w-full text-left px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">1. 온보딩</button>
+        <button onclick="showScreen('login')" class="screen-btn w-full text-left px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">2. 로그인</button>
+        <button onclick="showScreen('home')" class="screen-btn w-full text-left px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition font-medium text-primary">3. 홈</button>
+        <button onclick="showScreen('input-hub')" class="screen-btn w-full text-left px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">4. 데이터 입력 허브</button>
+        <button onclick="showScreen('meal-record')" class="screen-btn w-full text-left px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">5. 식단 기록</button>
+        <button onclick="showScreen('health-input')" class="screen-btn w-full text-left px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">6. 건강 지표 입력</button>
+        <button onclick="showScreen('device-connect')" class="screen-btn w-full text-left px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">7. 기기 연동</button>
+        <button onclick="showScreen('research-list')" class="screen-btn w-full text-left px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">8. 연구 참여 요청</button>
+        <button onclick="showScreen('research-detail')" class="screen-btn w-full text-left px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">9. 연구 상세 + 동의</button>
+        <button onclick="showScreen('research-active')" class="screen-btn w-full text-left px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">10. 참여 중인 연구</button>
+        <button onclick="showScreen('rewards')" class="screen-btn w-full text-left px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">11. 보상 관리</button>
+        <button onclick="showScreen('profile')" class="screen-btn w-full text-left px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">12. 내 정보</button>
+      </div>
+    </div>
+
+    <!-- 모바일 프레임 -->
+    <div class="flex flex-col items-center">
+      <div class="phone-frame bg-white">
+    <div class="phone-notch"></div>
+    
+    <!-- 1. 온보딩 -->
+    <div id="onboarding" class="screen">
+      <div class="h-full flex flex-col items-center justify-center px-8 text-center">
+        <div class="w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center mb-8">
+          <svg class="w-16 h-16 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+        </div>
+        <h1 class="text-2xl font-bold text-slate-800 mb-4">건강 데이터로<br>수익을 만드세요</h1>
+        <p class="text-slate-500 mb-8">매일 건강 데이터를 기록하면<br>연구에 기여하고 보상을 받습니다</p>
+        <div class="flex gap-2 mb-8">
+          <div class="w-2 h-2 rounded-full bg-primary"></div>
+          <div class="w-2 h-2 rounded-full bg-slate-200"></div>
+          <div class="w-2 h-2 rounded-full bg-slate-200"></div>
+        </div>
+        <button class="w-full bg-primary text-white py-4 rounded-xl font-medium">다음</button>
+      </div>
+    </div>
+    
+    <!-- 2. 로그인 -->
+    <div id="login" class="screen">
+      <div class="h-full flex flex-col items-center justify-center px-8">
+        <div class="text-3xl font-bold text-primary mb-2">UniQdata</div>
+        <p class="text-slate-500 mb-12">건강 데이터 플랫폼</p>
+        
+        <button class="w-full bg-slate-900 text-white py-4 rounded-xl font-medium flex items-center justify-center gap-3 mb-4">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zm0 2c4.97 0 9 4.03 9 9s-4.03 9-9 9-9-4.03-9-9 4.03-9 9-9zm0 3a3 3 0 00-3 3v1a3 3 0 006 0V9a3 3 0 00-3-3zm0 9c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+          Passkey로 시작하기
+        </button>
+        
+        <p class="text-sm text-slate-400 text-center mt-4">
+          패스키는 비밀번호 없이<br>안전하게 로그인하는 방식입니다
+        </p>
+        
+        <div class="absolute bottom-32 left-0 right-0 text-center">
+          <span class="text-slate-400">이미 계정이 있으신가요?</span>
+          <button class="text-primary font-medium ml-1">로그인</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 3. 홈 -->
+    <div id="home" class="screen active">
+      <div class="screen-content bg-slate-50 px-4 pb-4">
+        <!-- 헤더 -->
+        <div class="flex items-center justify-between py-4">
+          <div class="text-xl font-bold text-primary">UniQdata</div>
+          <div class="flex gap-2">
+            <button class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
+              <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+              </svg>
+            </button>
+            <button class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
+              <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <!-- 인사말 -->
+        <div class="mb-4">
+          <p class="text-slate-600">안녕하세요, <span class="font-semibold">김유니</span>님 👋</p>
+        </div>
+        
+        <!-- 보상 카드 -->
+        <div class="bg-gradient-to-r from-primary to-primary-light rounded-2xl p-5 text-white mb-4 shadow-lg">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/>
+            </svg>
+            <span class="text-white/80 text-sm">총 누적 보상</span>
+          </div>
+          <div class="text-3xl font-bold mb-1">127,500원</div>
+          <div class="text-white/70 text-sm">≈ 127.5 XRP</div>
+          <div class="mt-3 pt-3 border-t border-white/20 flex justify-between">
+            <span class="text-white/70 text-sm">이번 달</span>
+            <span class="font-semibold">+32,000원</span>
+          </div>
+        </div>
+        
+        <!-- 오늘의 입력 현황 -->
+        <div class="bg-white rounded-2xl p-5 mb-4 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-slate-800">📅 오늘의 입력 현황</h3>
+            <div class="relative w-12 h-12">
+              <svg class="progress-ring w-12 h-12">
+                <circle class="text-slate-100" stroke="currentColor" stroke-width="4" fill="transparent" r="20" cx="24" cy="24"/>
+                <circle class="progress-ring-circle text-primary" stroke="currentColor" stroke-width="4" fill="transparent" r="20" cx="24" cy="24" stroke-dasharray="125.6" stroke-dashoffset="62.8"/>
+              </svg>
+              <span class="absolute inset-0 flex items-center justify-center text-xs font-semibold">50%</span>
+            </div>
+          </div>
+          
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+                <span class="text-slate-700">혈당 (CGM 자동)</span>
+              </div>
+              <span class="text-green-600 text-sm font-medium">완료</span>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
+                  <span class="text-slate-400">☐</span>
+                </div>
+                <span class="text-slate-700">아침 식단</span>
+              </div>
+              <span class="text-slate-400 text-sm">미완료</span>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
+                  <span class="text-slate-400">☐</span>
+                </div>
+                <span class="text-slate-700">점심 식단</span>
+              </div>
+              <span class="text-slate-400 text-sm">미완료</span>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+                <span class="text-slate-700">수면 (자동)</span>
+              </div>
+              <span class="text-green-600 text-sm font-medium">완료</span>
+            </div>
+          </div>
+          
+          <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center">
+            <span class="text-slate-500 text-sm">완료: 2/4</span>
+            <span class="text-accent font-semibold">예상 보상: 250원</span>
+          </div>
+        </div>
+        
+        <!-- 참여 중인 연구 -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 class="font-semibold text-slate-800 mb-4">🔬 참여 중인 연구</h3>
+          
+          <div class="border border-slate-100 rounded-xl p-4">
+            <div class="flex items-start justify-between mb-2">
+              <h4 class="font-medium text-slate-800">당뇨 환자 혈당-식단 연구</h4>
+              <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">진행중</span>
+            </div>
+            <p class="text-sm text-slate-500 mb-3">서울대학교 의과대학</p>
+            
+            <div class="flex items-center gap-4 mb-3">
+              <div class="text-sm">
+                <span class="text-slate-400">남은 기간</span>
+                <span class="font-semibold text-slate-700 ml-1">D-23</span>
+              </div>
+              <div class="text-sm">
+                <span class="text-slate-400">진행률</span>
+                <span class="font-semibold text-slate-700 ml-1">45%</span>
+              </div>
+            </div>
+            
+            <div class="w-full bg-slate-100 rounded-full h-2">
+              <div class="bg-primary h-2 rounded-full" style="width: 45%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 하단 네비게이션 -->
+      <div class="bottom-nav flex items-center justify-around px-4">
+        <button class="flex flex-col items-center gap-1 text-primary">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+          </svg>
+          <span class="text-xs font-medium">홈</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('input-hub')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+          <span class="text-xs">입력</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('research-list')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+          </svg>
+          <span class="text-xs">연구</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('rewards')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span class="text-xs">보상</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('profile')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+          <span class="text-xs">내정보</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- 4. 데이터 입력 허브 -->
+    <div id="input-hub" class="screen">
+      <div class="screen-content bg-slate-50 px-4 pb-4">
+        <!-- 헤더 -->
+        <div class="flex items-center py-4">
+          <button onclick="showScreen('home')" class="mr-3">
+            <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-lg font-semibold text-slate-800">데이터 입력</h1>
+        </div>
+        
+        <p class="text-slate-600 mb-6">오늘 기록할 데이터를 선택하세요</p>
+        
+        <!-- 식단 기록 -->
+        <div onclick="showScreen('meal-record')" class="bg-white rounded-2xl p-5 mb-4 shadow-sm cursor-pointer hover:shadow-md transition">
+          <div class="flex items-start gap-4">
+            <div class="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center text-2xl">📸</div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-slate-800 mb-1">식단 기록</h3>
+              <p class="text-sm text-slate-500 mb-2">사진을 찍어 식단을 기록하세요</p>
+              <div class="flex items-center justify-between">
+                <span class="text-accent font-semibold text-sm">+100원/끼니</span>
+                <span class="text-slate-400 text-sm">오늘: 0/3 완료</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 건강 지표 -->
+        <div onclick="showScreen('health-input')" class="bg-white rounded-2xl p-5 mb-4 shadow-sm cursor-pointer hover:shadow-md transition">
+          <div class="flex items-start gap-4">
+            <div class="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center text-2xl">📊</div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-slate-800 mb-1">건강 지표</h3>
+              <p class="text-sm text-slate-500 mb-2">혈당, 혈압, 체중 등 입력</p>
+              <div class="flex items-center justify-between">
+                <span class="text-accent font-semibold text-sm">+50원/항목</span>
+                <span class="text-slate-400 text-sm">오늘: 1/3 완료</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 기기 연동 -->
+        <div onclick="showScreen('device-connect')" class="bg-white rounded-2xl p-5 mb-4 shadow-sm cursor-pointer hover:shadow-md transition">
+          <div class="flex items-start gap-4">
+            <div class="w-14 h-14 rounded-xl bg-purple-100 flex items-center justify-center text-2xl">⌚</div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-slate-800 mb-1">기기 연동</h3>
+              <p class="text-sm text-slate-500 mb-2">웨어러블, CGM 자동 동기화</p>
+              <div class="flex items-center justify-between">
+                <span class="text-green-600 font-semibold text-sm">자동 수집</span>
+                <span class="text-green-600 text-sm">2개 연결됨</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 건강검진 OCR -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm cursor-pointer hover:shadow-md transition opacity-60">
+          <div class="flex items-start gap-4">
+            <div class="w-14 h-14 rounded-xl bg-green-100 flex items-center justify-center text-2xl">📄</div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-slate-800 mb-1">건강검진 기록</h3>
+              <p class="text-sm text-slate-500 mb-2">검진 결과지 사진으로 입력</p>
+              <div class="flex items-center justify-between">
+                <span class="text-accent font-semibold text-sm">+500원/건</span>
+                <span class="text-slate-400 text-sm">연 1회</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 하단 네비게이션 -->
+      <div class="bottom-nav flex items-center justify-around px-4">
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('home')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          <span class="text-xs">홈</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-primary">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+          </svg>
+          <span class="text-xs font-medium">입력</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('research-list')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+          </svg>
+          <span class="text-xs">연구</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('rewards')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span class="text-xs">보상</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('profile')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+          <span class="text-xs">내정보</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- 5. 식단 기록 -->
+    <div id="meal-record" class="screen">
+      <div class="screen-content bg-slate-50 px-4 pb-4">
+        <!-- 헤더 -->
+        <div class="flex items-center py-4">
+          <button onclick="showScreen('input-hub')" class="mr-3">
+            <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-lg font-semibold text-slate-800">식단 기록</h1>
+        </div>
+        
+        <!-- 끼니 선택 -->
+        <div class="flex gap-2 mb-6">
+          <button class="flex-1 py-3 bg-primary text-white rounded-xl font-medium">아침</button>
+          <button class="flex-1 py-3 bg-white text-slate-600 rounded-xl font-medium border border-slate-200">점심</button>
+          <button class="flex-1 py-3 bg-white text-slate-600 rounded-xl font-medium border border-slate-200">저녁</button>
+        </div>
+        
+        <!-- 카메라 영역 -->
+        <div class="bg-slate-800 rounded-2xl aspect-square flex flex-col items-center justify-center mb-4">
+          <div class="w-20 h-20 rounded-full border-4 border-white/30 flex items-center justify-center mb-4">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <p class="text-white/70 text-sm">음식 사진을 촬영하세요</p>
+        </div>
+        
+        <!-- 안내 -->
+        <div class="bg-amber-50 rounded-xl p-4 mb-4">
+          <div class="flex items-start gap-3">
+            <span class="text-amber-500">⚠️</span>
+            <div>
+              <p class="text-amber-800 font-medium text-sm">인앱 카메라로만 촬영 가능</p>
+              <p class="text-amber-600 text-xs mt-1">데이터 진위 검증을 위해 앱 내에서 직접 촬영해야 합니다</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 촬영 버튼 -->
+        <button class="w-full bg-primary text-white py-4 rounded-xl font-medium flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          사진 촬영하기
+        </button>
+        
+        <!-- 보상 안내 -->
+        <div class="mt-4 text-center">
+          <span class="text-slate-500 text-sm">촬영 완료 시 </span>
+          <span class="text-accent font-semibold">+100원</span>
+          <span class="text-slate-500 text-sm"> 적립</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 6. 건강 지표 입력 -->
+    <div id="health-input" class="screen">
+      <div class="screen-content bg-slate-50 px-4 pb-4">
+        <!-- 헤더 -->
+        <div class="flex items-center py-4">
+          <button onclick="showScreen('input-hub')" class="mr-3">
+            <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-lg font-semibold text-slate-800">건강 지표 입력</h1>
+        </div>
+        
+        <!-- 혈당 -->
+        <div class="bg-white rounded-2xl p-5 mb-4 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center">🩸</div>
+              <div>
+                <h3 class="font-semibold text-slate-800">혈당</h3>
+                <p class="text-xs text-slate-400">+50원</p>
+              </div>
+            </div>
+            <span class="text-green-600 text-sm font-medium">자동 연동됨</span>
+          </div>
+          <div class="flex items-end gap-2">
+            <span class="text-3xl font-bold text-slate-800">118</span>
+            <span class="text-slate-500 mb-1">mg/dL</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-2">CGM에서 자동 수집 · 10분 전</p>
+        </div>
+        
+        <!-- 혈압 -->
+        <div class="bg-white rounded-2xl p-5 mb-4 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-pink-100 flex items-center justify-center">💓</div>
+              <div>
+                <h3 class="font-semibold text-slate-800">혈압</h3>
+                <p class="text-xs text-slate-400">+50원</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-4 mb-4">
+            <div class="flex-1">
+              <label class="text-xs text-slate-400 block mb-1">수축기</label>
+              <input type="number" placeholder="120" class="w-full px-4 py-3 border border-slate-200 rounded-xl text-lg font-semibold text-center">
+            </div>
+            <div class="flex-1">
+              <label class="text-xs text-slate-400 block mb-1">이완기</label>
+              <input type="number" placeholder="80" class="w-full px-4 py-3 border border-slate-200 rounded-xl text-lg font-semibold text-center">
+            </div>
+          </div>
+          <button class="w-full bg-primary/10 text-primary py-3 rounded-xl font-medium">저장</button>
+        </div>
+        
+        <!-- 체중 -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">⚖️</div>
+              <div>
+                <h3 class="font-semibold text-slate-800">체중</h3>
+                <p class="text-xs text-slate-400">+30원</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 mb-4">
+            <input type="number" placeholder="65.0" class="flex-1 px-4 py-3 border border-slate-200 rounded-xl text-lg font-semibold text-center">
+            <span class="text-slate-500">kg</span>
+          </div>
+          <button class="w-full bg-primary/10 text-primary py-3 rounded-xl font-medium">저장</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 7. 기기 연동 -->
+    <div id="device-connect" class="screen">
+      <div class="screen-content bg-slate-50 px-4 pb-4">
+        <!-- 헤더 -->
+        <div class="flex items-center py-4">
+          <button onclick="showScreen('input-hub')" class="mr-3">
+            <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-lg font-semibold text-slate-800">기기 연동</h1>
+        </div>
+        
+        <p class="text-slate-600 mb-6">연결된 기기에서 자동으로 데이터를 수집합니다</p>
+        
+        <!-- 연결된 기기 -->
+        <h3 class="text-sm font-semibold text-slate-500 mb-3">연결됨</h3>
+        
+        <div class="bg-white rounded-2xl p-4 mb-3 shadow-sm">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-2xl">⌚</div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-slate-800">Apple Watch</h4>
+              <p class="text-sm text-slate-500">심박수, 수면, 활동량</p>
+            </div>
+            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-4 mb-6 shadow-sm">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-2xl">📱</div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-slate-800">Dexcom G7</h4>
+              <p class="text-sm text-slate-500">연속혈당 (CGM)</p>
+            </div>
+            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+          </div>
+        </div>
+        
+        <!-- 연결 가능 -->
+        <h3 class="text-sm font-semibold text-slate-500 mb-3">연결 가능</h3>
+        
+        <div class="bg-white rounded-2xl p-4 mb-3 shadow-sm opacity-70">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-2xl">🍎</div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-slate-800">Apple Health</h4>
+              <p class="text-sm text-slate-500">통합 건강 데이터</p>
+            </div>
+            <button class="px-4 py-2 bg-primary text-white text-sm rounded-lg">연결</button>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-4 mb-3 shadow-sm opacity-70">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-2xl">🤖</div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-slate-800">Samsung Health</h4>
+              <p class="text-sm text-slate-500">Galaxy 기기 데이터</p>
+            </div>
+            <button class="px-4 py-2 bg-primary text-white text-sm rounded-lg">연결</button>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-4 shadow-sm opacity-70">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-2xl">📊</div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-slate-800">FreeStyle Libre</h4>
+              <p class="text-sm text-slate-500">연속혈당 (CGM)</p>
+            </div>
+            <button class="px-4 py-2 bg-primary text-white text-sm rounded-lg">연결</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 8. 연구 참여 요청 -->
+    <div id="research-list" class="screen">
+      <div class="screen-content bg-slate-50 px-4 pb-4">
+        <!-- 헤더 -->
+        <div class="flex items-center justify-between py-4">
+          <h1 class="text-lg font-semibold text-slate-800">연구 참여</h1>
+          <button class="text-sm text-primary font-medium">필터</button>
+        </div>
+        
+        <!-- 새 요청 배지 -->
+        <div class="bg-primary/10 rounded-xl p-4 mb-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+            <span class="text-white font-bold">2</span>
+          </div>
+          <div>
+            <p class="font-semibold text-primary">새로운 참여 요청</p>
+            <p class="text-sm text-primary/70">조건에 맞는 연구가 있습니다</p>
+          </div>
+        </div>
+        
+        <!-- 연구 목록 -->
+        <h3 class="text-sm font-semibold text-slate-500 mb-3">참여 가능한 연구</h3>
+        
+        <div onclick="showScreen('research-detail')" class="bg-white rounded-2xl p-5 mb-3 shadow-sm cursor-pointer hover:shadow-md transition">
+          <div class="flex items-start justify-between mb-2">
+            <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">NEW</span>
+            <span class="text-xs text-slate-400">D-7 마감</span>
+          </div>
+          <h4 class="font-semibold text-slate-800 mb-1">당뇨 환자 식습관 연구</h4>
+          <p class="text-sm text-slate-500 mb-3">서울대학교 의과대학</p>
+          <div class="flex items-center gap-4 text-sm">
+            <span class="text-slate-600">📅 3개월</span>
+            <span class="text-slate-600">📊 CGM, 식단</span>
+          </div>
+          <div class="mt-3 pt-3 border-t border-slate-100 flex justify-between items-center">
+            <span class="text-slate-500 text-sm">예상 보상</span>
+            <span class="text-accent font-bold">월 45,000원</span>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-5 mb-3 shadow-sm cursor-pointer hover:shadow-md transition">
+          <div class="flex items-start justify-between mb-2">
+            <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">NEW</span>
+            <span class="text-xs text-slate-400">D-14 마감</span>
+          </div>
+          <h4 class="font-semibold text-slate-800 mb-1">수면과 혈당 상관관계 연구</h4>
+          <p class="text-sm text-slate-500 mb-3">연세대학교 의료원</p>
+          <div class="flex items-center gap-4 text-sm">
+            <span class="text-slate-600">📅 2개월</span>
+            <span class="text-slate-600">📊 수면, CGM</span>
+          </div>
+          <div class="mt-3 pt-3 border-t border-slate-100 flex justify-between items-center">
+            <span class="text-slate-500 text-sm">예상 보상</span>
+            <span class="text-accent font-bold">월 30,000원</span>
+          </div>
+        </div>
+        
+        <!-- 참여 중 -->
+        <h3 class="text-sm font-semibold text-slate-500 mb-3 mt-6">참여 중인 연구</h3>
+        
+        <div onclick="showScreen('research-active')" class="bg-white rounded-2xl p-5 shadow-sm cursor-pointer hover:shadow-md transition">
+          <div class="flex items-start justify-between mb-2">
+            <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">진행중</span>
+            <span class="text-xs text-slate-400">D-23 남음</span>
+          </div>
+          <h4 class="font-semibold text-slate-800 mb-1">당뇨 환자 혈당-식단 연구</h4>
+          <p class="text-sm text-slate-500 mb-3">서울대학교 의과대학</p>
+          <div class="w-full bg-slate-100 rounded-full h-2 mb-2">
+            <div class="bg-primary h-2 rounded-full" style="width: 45%"></div>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-slate-500">진행률 45%</span>
+            <span class="text-primary font-medium">누적 32,000원</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 하단 네비게이션 -->
+      <div class="bottom-nav flex items-center justify-around px-4">
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('home')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          <span class="text-xs">홈</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('input-hub')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+          <span class="text-xs">입력</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-primary">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
+          </svg>
+          <span class="text-xs font-medium">연구</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('rewards')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span class="text-xs">보상</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('profile')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+          <span class="text-xs">내정보</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- 9. 연구 상세 + 동의 -->
+    <div id="research-detail" class="screen">
+      <div class="screen-content bg-slate-50 px-4 pb-4">
+        <!-- 헤더 -->
+        <div class="flex items-center py-4">
+          <button onclick="showScreen('research-list')" class="mr-3">
+            <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-lg font-semibold text-slate-800">연구 상세</h1>
+        </div>
+        
+        <!-- 연구 정보 -->
+        <div class="bg-white rounded-2xl p-5 mb-4 shadow-sm">
+          <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">NEW</span>
+          <h2 class="text-xl font-bold text-slate-800 mt-3 mb-2">당뇨 환자 식습관 연구</h2>
+          <p class="text-slate-500 mb-4">서울대학교 의과대학 내분비내과</p>
+          
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="bg-slate-50 rounded-xl p-3">
+              <p class="text-xs text-slate-400 mb-1">연구 기간</p>
+              <p class="font-semibold text-slate-800">3개월</p>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-3">
+              <p class="text-xs text-slate-400 mb-1">모집 마감</p>
+              <p class="font-semibold text-slate-800">D-7</p>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-3">
+              <p class="text-xs text-slate-400 mb-1">모집 인원</p>
+              <p class="font-semibold text-slate-800">200명</p>
+            </div>
+            <div class="bg-amber-50 rounded-xl p-3">
+              <p class="text-xs text-amber-600 mb-1">예상 보상</p>
+              <p class="font-bold text-amber-600">월 45,000원</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 수집 데이터 -->
+        <div class="bg-white rounded-2xl p-5 mb-4 shadow-sm">
+          <h3 class="font-semibold text-slate-800 mb-3">📊 수집 데이터</h3>
+          <div class="space-y-2">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center">🩸</div>
+              <span class="text-slate-700">연속혈당 (CGM)</span>
+              <span class="text-xs text-slate-400 ml-auto">자동</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center">🍽️</div>
+              <span class="text-slate-700">식단 사진</span>
+              <span class="text-xs text-slate-400 ml-auto">3회/일</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">😴</div>
+              <span class="text-slate-700">수면 데이터</span>
+              <span class="text-xs text-slate-400 ml-auto">자동</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 조건 충족 -->
+        <div class="bg-green-50 rounded-2xl p-5 mb-4">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-semibold text-green-800">참여 조건 충족</p>
+              <p class="text-sm text-green-600">ZKP 검증 완료</p>
+            </div>
+          </div>
+          <p class="text-xs text-green-600">* 귀하의 개인정보는 연구자에게 공개되지 않습니다</p>
+        </div>
+        
+        <!-- 동의 버튼 -->
+        <button class="w-full bg-primary text-white py-4 rounded-xl font-medium flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+          Passkey로 동의하기
+        </button>
+      </div>
+    </div>
+    
+    <!-- 10. 참여 중인 연구 -->
+    <div id="research-active" class="screen">
+      <div class="screen-content bg-slate-50 px-4 pb-4">
+        <!-- 헤더 -->
+        <div class="flex items-center py-4">
+          <button onclick="showScreen('research-list')" class="mr-3">
+            <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-lg font-semibold text-slate-800">참여 현황</h1>
+        </div>
+        
+        <!-- 연구 정보 -->
+        <div class="bg-white rounded-2xl p-5 mb-4 shadow-sm">
+          <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">진행중</span>
+          <h2 class="text-lg font-bold text-slate-800 mt-3 mb-1">당뇨 환자 혈당-식단 연구</h2>
+          <p class="text-sm text-slate-500 mb-4">서울대학교 의과대학</p>
+          
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-slate-500 text-sm">진행률</span>
+            <span class="font-semibold text-slate-800">45%</span>
+          </div>
+          <div class="w-full bg-slate-100 rounded-full h-3 mb-4">
+            <div class="bg-primary h-3 rounded-full" style="width: 45%"></div>
+          </div>
+          
+          <div class="grid grid-cols-3 gap-3">
+            <div class="text-center">
+              <p class="text-2xl font-bold text-slate-800">23</p>
+              <p class="text-xs text-slate-400">남은 일수</p>
+            </div>
+            <div class="text-center">
+              <p class="text-2xl font-bold text-primary">32,000</p>
+              <p class="text-xs text-slate-400">누적 보상(원)</p>
+            </div>
+            <div class="text-center">
+              <p class="text-2xl font-bold text-slate-800">87%</p>
+              <p class="text-xs text-slate-400">제출률</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 오늘의 제출 -->
+        <div class="bg-white rounded-2xl p-5 mb-4 shadow-sm">
+          <h3 class="font-semibold text-slate-800 mb-4">📅 오늘의 제출</h3>
+          
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+                <span class="text-slate-700">연속혈당</span>
+              </div>
+              <span class="text-green-600 text-sm font-medium">+200원</span>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+                <span class="text-slate-700">아침 식단</span>
+              </div>
+              <span class="text-green-600 text-sm font-medium">+100원</span>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
+                  <span class="text-slate-400">☐</span>
+                </div>
+                <span class="text-slate-700">점심 식단</span>
+              </div>
+              <span class="text-slate-400 text-sm">대기중</span>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
+                  <span class="text-slate-400">☐</span>
+                </div>
+                <span class="text-slate-700">저녁 식단</span>
+              </div>
+              <span class="text-slate-400 text-sm">대기중</span>
+            </div>
+          </div>
+          
+          <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center">
+            <span class="text-slate-500 text-sm">오늘 예상</span>
+            <span class="text-accent font-bold">+500원</span>
+          </div>
+        </div>
+        
+        <!-- 동의 철회 -->
+        <button class="w-full text-red-500 py-3 text-sm">
+          연구 참여 철회하기
+        </button>
+      </div>
+    </div>
+    
+    <!-- 11. 보상 관리 -->
+    <div id="rewards" class="screen">
+      <div class="screen-content bg-slate-50 px-4 pb-4">
+        <!-- 헤더 -->
+        <div class="flex items-center justify-between py-4">
+          <h1 class="text-lg font-semibold text-slate-800">보상 관리</h1>
+          <button class="text-sm text-primary font-medium">내역</button>
+        </div>
+        
+        <!-- 잔액 카드 -->
+        <div class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-2xl p-5 text-white mb-4 shadow-lg">
+          <p class="text-white/70 text-sm mb-2">출금 가능 잔액</p>
+          <div class="text-3xl font-bold mb-1">127,500원</div>
+          <div class="text-white/50 text-sm mb-4">≈ 127.5 XRP</div>
+          
+          <button class="w-full bg-white text-slate-800 py-3 rounded-xl font-medium">
+            출금하기
+          </button>
+        </div>
+        
+        <!-- 이번 달 요약 -->
+        <div class="bg-white rounded-2xl p-5 mb-4 shadow-sm">
+          <h3 class="font-semibold text-slate-800 mb-4">📊 이번 달 요약</h3>
+          
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="bg-green-50 rounded-xl p-4">
+              <p class="text-xs text-green-600 mb-1">총 수익</p>
+              <p class="text-xl font-bold text-green-700">+32,000원</p>
+            </div>
+            <div class="bg-blue-50 rounded-xl p-4">
+              <p class="text-xs text-blue-600 mb-1">데이터 입력</p>
+              <p class="text-xl font-bold text-blue-700">87회</p>
+            </div>
+          </div>
+          
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-600">연구 참여 보상</span>
+              <span class="font-semibold text-slate-800">+28,000원</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slate-600">데이터 입력 보상</span>
+              <span class="font-semibold text-slate-800">+4,000원</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 최근 내역 -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm">
+          <h3 class="font-semibold text-slate-800 mb-4">최근 내역</h3>
+          
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-medium text-slate-800">식단 기록 (점심)</p>
+                <p class="text-xs text-slate-400">오늘 12:30</p>
+              </div>
+              <span class="text-green-600 font-semibold">+100원</span>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-medium text-slate-800">CGM 데이터</p>
+                <p class="text-xs text-slate-400">오늘 08:00</p>
+              </div>
+              <span class="text-green-600 font-semibold">+200원</span>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-medium text-slate-800">식단 기록 (아침)</p>
+                <p class="text-xs text-slate-400">오늘 07:45</p>
+              </div>
+              <span class="text-green-600 font-semibold">+100원</span>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-medium text-slate-800">수면 데이터</p>
+                <p class="text-xs text-slate-400">오늘 07:00</p>
+              </div>
+              <span class="text-green-600 font-semibold">+100원</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 하단 네비게이션 -->
+      <div class="bottom-nav flex items-center justify-around px-4">
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('home')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          <span class="text-xs">홈</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('input-hub')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+          <span class="text-xs">입력</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('research-list')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+          </svg>
+          <span class="text-xs">연구</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-primary">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/>
+          </svg>
+          <span class="text-xs font-medium">보상</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('profile')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+          <span class="text-xs">내정보</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- 12. 내 정보 -->
+    <div id="profile" class="screen">
+      <div class="screen-content bg-slate-50 px-4 pb-4">
+        <!-- 헤더 -->
+        <div class="flex items-center justify-between py-4">
+          <h1 class="text-lg font-semibold text-slate-800">내 정보</h1>
+          <button class="text-sm text-primary font-medium">편집</button>
+        </div>
+        
+        <!-- 프로필 카드 -->
+        <div class="bg-white rounded-2xl p-5 mb-4 shadow-sm">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+              <span class="text-2xl">👤</span>
+            </div>
+            <div>
+              <h2 class="text-lg font-bold text-slate-800">김유니</h2>
+              <p class="text-sm text-slate-500">uniq***@gmail.com</p>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-3 gap-4 pt-4 border-t border-slate-100">
+            <div class="text-center">
+              <p class="text-xl font-bold text-slate-800">127</p>
+              <p class="text-xs text-slate-400">기록 일수</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xl font-bold text-primary">3</p>
+              <p class="text-xs text-slate-400">참여 연구</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xl font-bold text-accent">127K</p>
+              <p class="text-xs text-slate-400">총 보상(원)</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 지갑 -->
+        <div class="bg-white rounded-2xl p-5 mb-4 shadow-sm">
+          <h3 class="font-semibold text-slate-800 mb-3">💳 XRPL 지갑</h3>
+          <div class="bg-slate-50 rounded-xl p-3 flex items-center justify-between">
+            <code class="text-xs text-slate-600">rN7n3...Kx9mP</code>
+            <button class="text-primary text-sm">복사</button>
+          </div>
+        </div>
+        
+        <!-- 메뉴 -->
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+          <button class="w-full px-5 py-4 flex items-center justify-between border-b border-slate-100">
+            <span class="text-slate-700">연동된 기기</span>
+            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+          <button class="w-full px-5 py-4 flex items-center justify-between border-b border-slate-100">
+            <span class="text-slate-700">알림 설정</span>
+            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+          <button class="w-full px-5 py-4 flex items-center justify-between border-b border-slate-100">
+            <span class="text-slate-700">개인정보 처리방침</span>
+            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+          <button class="w-full px-5 py-4 flex items-center justify-between">
+            <span class="text-slate-700">서비스 이용약관</span>
+            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- 로그아웃 -->
+        <button class="w-full text-red-500 py-4 mt-4 text-sm">
+          로그아웃
+        </button>
+      </div>
+      
+      <!-- 하단 네비게이션 -->
+      <div class="bottom-nav flex items-center justify-around px-4">
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('home')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          <span class="text-xs">홈</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('input-hub')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+          <span class="text-xs">입력</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('research-list')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+          </svg>
+          <span class="text-xs">연구</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400" onclick="showScreen('rewards')">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span class="text-xs">보상</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-primary">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+          <span class="text-xs font-medium">내정보</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 우측: 기능/API 명세 패널 -->
+    <div class="w-[360px] bg-slate-900 rounded-2xl p-6 shadow-lg">
+      <div class="text-xs text-slate-400">Screen Spec</div>
+      <div id="spec-title" class="text-lg font-semibold mt-1">홈</div>
+      <div id="spec-purpose" class="text-sm text-slate-300 mt-2 mb-4">오늘의 입력/보상/연구 상태를 요약</div>
+
+      <div class="mb-4">
+        <div class="text-xs text-slate-400 mb-2">핵심 기능</div>
+        <ul id="spec-features" class="text-sm space-y-1 list-disc list-inside text-slate-200"></ul>
+      </div>
+
+      <div class="mb-4">
+        <div class="text-xs text-slate-400 mb-2">관련 API</div>
+        <ul id="spec-apis" class="text-xs space-y-1 text-slate-300"></ul>
+      </div>
+
+      <div class="mb-4">
+        <div class="text-xs text-slate-400 mb-2">데이터 스키마</div>
+        <div id="spec-schema" class="text-xs text-slate-300 space-y-1"></div>
+      </div>
+
+      <div class="text-xs text-slate-400">
+        공통 헤더: <span class="text-slate-200">Authorization (Bearer), X-App-Id: uniqdata-app</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SCREEN_SPECS = {
+      onboarding: {
+        title: '온보딩',
+        purpose: '가치/프라이버시/보상 구조 이해',
+        features: ['앱 가치 설명', '프라이버시 안내', '첫 진입 CTA'],
+        apis: ['(API 없음)'],
+        schema: ['-']
+      },
+      login: {
+        title: '회원가입/로그인',
+        purpose: 'Passkey 기반 인증 + 지갑 연결',
+        features: ['Passkey 등록/인증', '지갑(PRF) 연동', '복구 플로우 연결'],
+        apis: [
+          'POST /auth/passkey/register/options',
+          'POST /auth/passkey/register/complete',
+          'POST /auth/passkey/authenticate/options',
+          'POST /auth/passkey/authenticate/complete',
+          'POST /auth/token/refresh'
+        ],
+        schema: ['accounts', 'sessions', 'wallet']
+      },
+      home: {
+        title: '홈',
+        purpose: '오늘 입력 상태 + 보상/연구 요약',
+        features: ['오늘의 입력 체크리스트', '누적/월간 보상 요약', '참여 연구 상태'],
+        apis: ['GET /api/v1/agreements', 'GET /api/v1/projects'],
+        schema: ['agreements', 'projects', 'settlements(요약)']
+      },
+      'input-hub': {
+        title: '데이터 입력 허브',
+        purpose: '입력 채널 선택/오늘 해야 할 일 안내',
+        features: ['수기/사진/기기 입력 진입', '누락 항목 표시', '빠른 기록 버튼'],
+        apis: ['POST /api/v1/data/points', 'POST /api/v1/data/points/batch'],
+        schema: ['health_records', 'data_points']
+      },
+      'meal-record': {
+        title: '식단 기록',
+        purpose: '식사 사진 + 탄수/메모 기록',
+        features: ['카메라 촬영', '탄수/메모 입력', '저장/보상 반영'],
+        apis: ['POST /api/v1/data/points', 'POST /api/v1/data/points/batch'],
+        schema: ['data_points (meal/photo_ref)']
+      },
+      'health-input': {
+        title: '건강 지표 입력',
+        purpose: '혈당/혈압/체중 등 수기 입력',
+        features: ['수치 입력 + 단위', '범위 검증', '저장/보상 반영'],
+        apis: ['POST /api/v1/data/points'],
+        schema: ['data_points (value_numeric/value_encrypted)']
+      },
+      'device-connect': {
+        title: '기기 연동',
+        purpose: 'HealthKit/Health Connect 동기화',
+        features: ['기기 권한 연결', '동기화 상태', '자동 수집 설정'],
+        apis: ['POST /api/v1/data/points/batch'],
+        schema: ['source_app', 'device metadata']
+      },
+      'research-list': {
+        title: '연구 참여 요청',
+        purpose: '참여 가능 연구 탐색',
+        features: ['연구 리스트/필터', '보상/기간 요약', '상세 진입'],
+        apis: ['GET /api/v1/projects', 'GET /api/v1/agreements'],
+        schema: ['projects', 'agreements']
+      },
+      'research-detail': {
+        title: '연구 상세 + 동의',
+        purpose: '동의서 확인 및 서명',
+        features: ['연구 목적/수집 항목', '동의서 보기', 'Passkey 서명'],
+        apis: ['GET /api/v1/agreements/:id', 'POST /api/v1/agreements/:id/accept', 'POST /api/v1/agreements/join'],
+        schema: ['agreements', 'consent_status']
+      },
+      'research-active': {
+        title: '참여 중인 연구',
+        purpose: '진행률/제출 현황/철회',
+        features: ['제출률/완료율', '누락 항목 알림', '철회 버튼'],
+        apis: ['GET /api/v1/agreements', 'POST /api/v1/agreements/:id/withdraw'],
+        schema: ['agreements', 'data_points']
+      },
+      rewards: {
+        title: '보상 관리',
+        purpose: '누적/예정 보상 및 출금',
+        features: ['보상 내역', '출금 요청', '지급 상태 확인'],
+        apis: ['GET /api/v1/projects/:projectId/settlements', 'GET /api/v1/agreements/:agreementId/settlements'],
+        schema: ['settlements', 'escrow']
+      },
+      profile: {
+        title: '내 정보',
+        purpose: '계정/지갑/보안 관리',
+        features: ['Passkey 관리', '지갑 조회', '복구/연결 관리'],
+        apis: ['GET /auth/passkey/bindings', 'POST /auth/passkey/bindings/{credentialId}/revoke', 'GET /auth/wallet', 'POST /auth/recovery/request'],
+        schema: ['passkeys', 'wallet', 'recovery']
+      }
+    };
+
+    function setNavView(view) {
+      const flowView = document.getElementById('flow-view');
+      const screenView = document.getElementById('screen-view');
+      const tabFlow = document.getElementById('tab-flow');
+      const tabScreen = document.getElementById('tab-screen');
+      if (view === 'flow') {
+        flowView.classList.remove('hidden');
+        screenView.classList.add('hidden');
+        tabFlow.classList.add('bg-primary/20', 'text-primary', 'font-medium');
+        tabFlow.classList.remove('bg-slate-800', 'text-slate-300');
+        tabScreen.classList.add('bg-slate-800', 'text-slate-300');
+        tabScreen.classList.remove('bg-primary/20', 'text-primary', 'font-medium');
+      } else {
+        screenView.classList.remove('hidden');
+        flowView.classList.add('hidden');
+        tabScreen.classList.add('bg-primary/20', 'text-primary', 'font-medium');
+        tabScreen.classList.remove('bg-slate-800', 'text-slate-300');
+        tabFlow.classList.add('bg-slate-800', 'text-slate-300');
+        tabFlow.classList.remove('bg-primary/20', 'text-primary', 'font-medium');
+      }
+    }
+
+    function updateSpec(screenId) {
+      const spec = SCREEN_SPECS[screenId] || SCREEN_SPECS.home;
+      document.getElementById('spec-title').textContent = spec.title;
+      document.getElementById('spec-purpose').textContent = spec.purpose;
+      document.getElementById('spec-features').innerHTML = spec.features.map(item => `<li>${item}</li>`).join('');
+      document.getElementById('spec-apis').innerHTML = spec.apis.map(item => `<li>• ${item}</li>`).join('');
+      document.getElementById('spec-schema').innerHTML = spec.schema.map(item => `<div>• ${item}</div>`).join('');
+    }
+
+    function showScreen(screenId) {
+      // 모든 화면 숨기기
+      document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+      });
+
+      // 선택한 화면 보이기
+      document.getElementById(screenId).classList.add('active');
+
+      // 버튼 스타일 업데이트
+      document.querySelectorAll('.screen-btn').forEach(btn => {
+        btn.classList.remove('font-medium', 'text-primary', 'bg-primary/20');
+      });
+      const activeBtn = document.querySelector(`[onclick="showScreen('${screenId}')"]`);
+      if (activeBtn) activeBtn.classList.add('font-medium', 'text-primary', 'bg-primary/20');
+
+      updateSpec(screenId);
+    }
+
+    setNavView('flow');
+    updateSpec('home');
+  </script>
+  
+</body>
+</html>
